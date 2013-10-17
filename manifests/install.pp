@@ -5,8 +5,9 @@ class td-agent::install {
     repos    => 'contrib',
   }
 
-  package { 'td-agent':
-    ensure  => 'installed',
+  exec { 'td-agent':
+    command  => '/usr/bin/apt-get install -y --force-yes td-agent',
+    unless => '/usr/bin/dpkg --get-selections | grep -v deinstall | grep td-agent',
     require => Apt::Source['treasuredata'],
   }
 }
